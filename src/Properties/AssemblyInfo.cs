@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("Vsix Logger")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("en-US")]
+[assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
 [assembly: Guid("f074f4e7-ef91-42f8-865b-d1ddb1d1c051")]
