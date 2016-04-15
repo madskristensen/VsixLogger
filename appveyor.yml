@@ -1,8 +1,22 @@
 image: Visual Studio 2015
+configuration: Release
+verbosity: quiet
 
-build_script:
+assembly_info:
+  patch: true
+  file: AssemblyInfo.*
+  assembly_version: "{version}"
+  assembly_file_version: "{version}"
+  assembly_informational_version: "{version}"
+
+before_build:
   - nuget restore -Verbosity quiet
-  - msbuild /p:configuration=Release /v:m
+
+build:
+  parallel: true
+  project: src/VsixLogger.csproj
+  publish_nuget: true             # package projects with .nuspec files and push to artifacts
+  publish_nuget_symbols: true     # generate and publish NuGet symbol packages
 
 after_build:
   - ps: nuget pack src\VsixLogger.csproj
@@ -14,11 +28,11 @@ artifacts:
   - path: src\bin\**\VsixLogger.dll
     name: Binary
 
-deploy:
-  - provider: NuGet
-    artifact: /NuGet/
-    api_key:
-      secure: 6xBu/05BWJDPa2PRkxEH3PHU/caLvy2lzf1eWdRBGXwSCTejHtI+6e0V4s2LaVri
-    on:
-      branch: master
-      appveyor_repo_commit_message_extended: /\[release\]/
+#deploy:
+#  - provider: NuGet
+#    artifact: /NuGet/
+#    api_key:
+#      secure: 6xBu/05BWJDPa2PRkxEH3PHU/caLvy2lzf1eWdRBGXwSCTejHtI+6e0V4s2LaVri
+#    on:
+#      branch: master
+#      appveyor_repo_commit_message_extended: /\[release\]/
