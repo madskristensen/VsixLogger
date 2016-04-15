@@ -1,21 +1,44 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
+/// <summary>
+/// A logger made specifically for Visual Studio extensions.
+/// </summary>
 public static class Logger
 {
-    static IVsOutputWindowPane pane;
-    static IServiceProvider _provider;
-    static string _name;
+    private static IVsOutputWindowPane pane;
+    private static IServiceProvider _provider;
+    private static string _name;
 
+    /// <summary>
+    /// Initializes the logger
+    /// </summary>
+    /// <param name="provider">The service provider or <seealso cref="Package"/> instance.</param>
+    /// <param name="name">The name to use for the custom Output Window pane.</param>
     public static void Initialize(IServiceProvider provider, string name)
     {
         _provider = provider;
         _name = name;
     }
 
-    [SuppressMessage("Microsoft.Usage", "CA1806:DoNotIgnoreMethodResults", MessageId = "Microsoft.VisualStudio.Shell.Interop.IVsOutputWindowPane.OutputString(System.String)")]
+    /// <summary>
+    /// Initializes the logger and Application Insights telemetry client.
+    /// </summary>
+    /// <param name="provider">The service provider or <seealso cref="Package"/> instance.</param>
+    /// <param name="name">The name to use for the custom Output Window pane.</param>
+    /// <param name="version">The version of the Visual Studio extension.</param>
+    /// <param name="telemetryKey">The Applicatoin Insights instrumentation key (usually a GUID).</param>
+    public static void Initialize(IServiceProvider provider, string name, string version, string telemetryKey)
+    {
+        Initialize(provider, name);
+        Telemetry.Initialize(provider, version, telemetryKey);
+    }
+
+    /// <summary>
+    /// Logs a message to the Output Window.
+    /// </summary>
+    /// <param name="message">The message to output.</param>
     public static void Log(string message)
     {
         if (string.IsNullOrEmpty(message))
@@ -37,16 +60,22 @@ public static class Logger
         }
     }
 
+    /// <summary>
+    /// Logs an exception to the output window and tracks it in Application Insights.
+    /// </summary>
+    /// <param name="ex">The exception to log.</param>
     public static void Log(Exception ex)
     {
         if (ex != null)
         {
             Log(ex.ToString());
-            Telemetry.TrackException(ex);
+
+            if (Telemetry.Enabled)
+                Telemetry.TrackException(ex);
         }
     }
 
-    static bool EnsurePane()
+    private static bool EnsurePane()
     {
         if (pane == null)
         {

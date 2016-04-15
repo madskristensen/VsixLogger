@@ -20,14 +20,7 @@ public static class Telemetry
     public static void Initialize(IServiceProvider serviceProvider, string version, string telemetryKey)
     {
         var dte = (DTE2)serviceProvider.GetService(typeof(DTE));
-        Initialize(dte, version, telemetryKey);
-    }
 
-    /// <summary>
-    /// Initializes the telemetry client.
-    /// </summary>
-    public static void Initialize(DTE2 dte, string version, string telemetryKey)
-    {
         if (_telemetry != null)
             throw new NotSupportedException("The telemetry client is already initialized");
 
@@ -62,11 +55,11 @@ public static class Telemetry
     public static void TrackEvent(string key, IDictionary<string, string> properties = null, IDictionary<string, double> metrics = null)
     {
 #if !DEBUG
-        if (_telemetry == null)
-            throw new NullReferenceException("The Telemetry client has not been initialized. Call Telemetry.Initialize() to fix.");
-
         if (Enabled)
         {
+            if (_telemetry == null)
+                throw new NullReferenceException("The Telemetry client has not been initialized. Call Logger.Initialize() to fix.");
+
             _telemetry.TrackEvent(key, properties, metrics);
         }
 #endif
@@ -76,11 +69,11 @@ public static class Telemetry
     public static void TrackException(Exception ex)
     {
 #if !DEBUG
-        if (_telemetry == null)
-            throw new NullReferenceException("The Telemetry client has not been initialized. Call Telemetry.Initialize() to fix.");
-
         if (Enabled)
         {
+            if (_telemetry == null)
+                throw new NullReferenceException("The Telemetry client has not been initialized. Call Logger.Initialize() to fix.");
+
             var telex = new Microsoft.ApplicationInsights.DataContracts.ExceptionTelemetry(ex);
             telex.HandledAt = Microsoft.ApplicationInsights.DataContracts.ExceptionHandledAt.UserCode;
             _telemetry.TrackException(telex);
