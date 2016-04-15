@@ -13,8 +13,5 @@
         <description>$description$</description>
         <copyright>Copyright 2016</copyright>
         <tags>vsix, extension, plugin</tags>
-        <dependencies>
-            <dependency id="Microsoft.ApplicationInsights" version="(1.0,)" />
-        </dependencies>
     </metadata>
 </package>
