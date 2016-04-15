@@ -62,10 +62,13 @@ public static class Telemetry
     public static void TrackEvent(string key, IDictionary<string, string> properties = null, IDictionary<string, double> metrics = null)
     {
 #if !DEBUG
-            if (Enabled)
-            {
-                _telemetry.TrackEvent(key, properties, metrics);
-            }
+        if (_telemetry == null)
+            throw new NullReferenceException("The Telemetry client has not been initialized. Call Telemetry.Initialize() to fix.");
+
+        if (Enabled)
+        {
+            _telemetry.TrackEvent(key, properties, metrics);
+        }
 #endif
     }
 
@@ -73,12 +76,15 @@ public static class Telemetry
     public static void TrackException(Exception ex)
     {
 #if !DEBUG
-            if (Enabled)
-            {
-                var telex = new Microsoft.ApplicationInsights.DataContracts.ExceptionTelemetry(ex);
-                telex.HandledAt = Microsoft.ApplicationInsights.DataContracts.ExceptionHandledAt.UserCode;
-                _telemetry.TrackException(telex);
-            }
+        if (_telemetry == null)
+            throw new NullReferenceException("The Telemetry client has not been initialized. Call Telemetry.Initialize() to fix.");
+
+        if (Enabled)
+        {
+            var telex = new Microsoft.ApplicationInsights.DataContracts.ExceptionTelemetry(ex);
+            telex.HandledAt = Microsoft.ApplicationInsights.DataContracts.ExceptionHandledAt.UserCode;
+            _telemetry.TrackException(telex);
+        }
 #endif
     }
 }
