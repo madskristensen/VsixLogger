@@ -1,16 +1,17 @@
 image: Visual Studio 2015
 
-before_build:
+build:
   - nuget restore -Verbosity quiet
+  - msbuild /p:configuration=Release /v:m
 
-after_test:
+after_build:
   - ps: nuget pack src\VsixLogger.csproj
 
 artifacts:
   - path: src\**\*.nupkg
     name: NuGet package
 
-  - path: src\**\*.dll
+  - path: src\bin\**\VsixLogger.dll
     name: Binary
 
 deploy:
