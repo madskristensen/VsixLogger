@@ -1,6 +1,6 @@
 image: Visual Studio 2015
 
-build:
+build_script:
   - nuget restore -Verbosity quiet
   - msbuild /p:configuration=Release /v:m
 
