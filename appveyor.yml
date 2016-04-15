@@ -1,15 +1,17 @@
 image: Visual Studio 2015
 
-build_script:
+before_build:
   - nuget restore -Verbosity quiet
 
 after_test:
   - ps: nuget pack src\VsixLogger.csproj
-  - ps: Vsix-PushArtifacts
 
 artifacts:
   - path: src\**\*.nupkg
     name: NuGet package
+
+  - path: src\**\*.dll
+    name: Binary
 
 deploy:
   - provider: NuGet
