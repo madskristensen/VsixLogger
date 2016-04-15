@@ -17,9 +17,12 @@ public static class Telemetry
     /// <summary>
     /// Initializes the telemetry client.
     /// </summary>
-    public static void Initialize(IServiceProvider serviceProvider, string version, string telemetryKey)
+    /// <param name="provider">The service provider instance.</param>
+    /// <param name="version">The version of the Visual Studio extension.</param>
+    /// <param name="telemetryKey">The Applicatoin Insights instrumentation key (usually a GUID).</param>
+    public static void Initialize(IServiceProvider provider, string version, string telemetryKey)
     {
-        var dte = (DTE2)serviceProvider.GetService(typeof(DTE));
+        var dte = (DTE2)provider.GetService(typeof(DTE));
 
         if (_telemetry != null)
             throw new NotSupportedException("The telemetry client is already initialized");
