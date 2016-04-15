@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package >
+    <metadata>
+        <id>$id$</id>
+        <version>$version$</version>
+        <title>$title$</title>
+        <authors>$author$</authors>
+        <owners>$author$</owners>
+        <licenseUrl>https://github.com/madskristensen/VsixLogger/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/madskristensen/VsixLogger</projectUrl>
+        <iconUrl>https://raw.githubusercontent.com/madskristensen/VsixLogger/master/art/logo.png</iconUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>$description$</description>
+        <copyright>Copyright 2016</copyright>
+        <tags>vsix, extension, plugin</tags>
+        <dependencies>
+            <dependency id="Microsoft.ApplicationInsights" version="(1.0,)" />
+        </dependencies>
+    </metadata>
+</package>
