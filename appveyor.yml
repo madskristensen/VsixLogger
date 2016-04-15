@@ -21,13 +21,6 @@ build:
 after_build:
   - ps: nuget pack src\VsixLogger.csproj
 
-artifacts:
-  - path: src\**\*.nupkg
-    name: NuGet package
-
-  - path: src\bin\**\VsixLogger.dll
-    name: Binary
-
 deploy:
   - provider: NuGet
     artifact: /NuGet/
