@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 
 /// <summary>
@@ -14,7 +13,7 @@ public static class Logger
     /// <summary>
     /// Initializes the logger
     /// </summary>
-    /// <param name="provider">The service provider or <seealso cref="Package"/> instance.</param>
+    /// <param name="provider">The service provider or Package instance.</param>
     /// <param name="name">The name to use for the custom Output Window pane.</param>
     public static void Initialize(IServiceProvider provider, string name)
     {
@@ -25,7 +24,7 @@ public static class Logger
     /// <summary>
     /// Initializes the logger and Application Insights telemetry client.
     /// </summary>
-    /// <param name="provider">The service provider or <seealso cref="Package"/> instance.</param>
+    /// <param name="provider">The service provider or Package instance.</param>
     /// <param name="name">The name to use for the custom Output Window pane.</param>
     /// <param name="version">The version of the Visual Studio extension.</param>
     /// <param name="telemetryKey">The Applicatoin Insights instrumentation key (usually a GUID).</param>
@@ -48,10 +47,7 @@ public static class Logger
         {
             if (EnsurePane())
             {
-                ThreadHelper.Generic.BeginInvoke(() =>
-                {
-                    pane.OutputStringThreadSafe(DateTime.Now + ": " + message + Environment.NewLine);
-                });
+                pane.OutputStringThreadSafe(DateTime.Now + ": " + message + Environment.NewLine);
             }
         }
         catch (Exception ex)
@@ -79,16 +75,13 @@ public static class Logger
     {
         if (pane == null)
         {
-            ThreadHelper.Generic.Invoke(() =>
+            if (pane == null)
             {
-                if (pane == null)
-                {
-                    Guid guid = Guid.NewGuid();
-                    IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
-                    output.CreatePane(ref guid, _name, 1, 1);
-                    output.GetPane(ref guid, out pane);
-                }
-            });
+                Guid guid = Guid.NewGuid();
+                IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
+                output.CreatePane(ref guid, _name, 1, 1);
+                output.GetPane(ref guid, out pane);
+            }
         }
 
         return pane != null;
