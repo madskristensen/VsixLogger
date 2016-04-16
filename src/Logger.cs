@@ -11,7 +11,7 @@ public static class Logger
     private static string _name;
 
     /// <summary>
-    /// Initializes the logger
+    /// Initializes the logger.
     /// </summary>
     /// <param name="provider">The service provider or Package instance.</param>
     /// <param name="name">The name to use for the custom Output Window pane.</param>
