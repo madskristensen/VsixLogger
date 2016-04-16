@@ -13,8 +13,5 @@
         <description>$description$</description>
         <copyright>Copyright 2016</copyright>
         <tags>vsix, extension, plugin</tags>
-        <frameworkAssemblies>
-            <frameworkAssembly assemblyName="Microsoft.VisualStudio.Shell.Interop" />
-        </frameworkAssemblies>
     </metadata>
 </package>
