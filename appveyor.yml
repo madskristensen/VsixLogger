@@ -1,6 +1,7 @@
 image: Visual Studio 2015
 
 version: 1.0.{build}
+configuration: Release
 
 assembly_info:
   patch: true
@@ -17,7 +18,6 @@ build:
   project: src/VsixLogger.csproj
   publish_nuget: true             # package projects with .nuspec files and push to artifacts
   verbosity: quiet
-  configuration: Release
 
 after_build:
   - ps: nuget pack src\VsixLogger.csproj
