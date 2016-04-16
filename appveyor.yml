@@ -11,7 +11,7 @@ assembly_info:
   assembly_informational_version: "{version}"
 
 before_build:
-  - nuget version
+  - nuget update -self
   - nuget restore -Verbosity quiet
 
 build:
