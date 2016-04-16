@@ -14,7 +14,6 @@
         <copyright>Copyright 2016</copyright>
         <tags>vsix, extension, plugin</tags>
     </metadata>
-
     <files>
         <file src="bin\$configuration$\$id$.pdb" target="lib\net45" />
     </files>
