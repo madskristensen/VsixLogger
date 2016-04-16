@@ -17,12 +17,14 @@ Available as [VsixLogger on NuGet](https://www.nuget.org/packages/VsixLogger/)
 - Tracks custom events through Application Insights
 
 ## Referenced assemblies
-This package will install the following GAC'ed assemblies to
-the VSIX project:
+This package will automatically install 
+*Microsoft.VisualStudio.Shell.Interop* into the VSIX project.
+
+You must manually add a reference to the following assemblies
+for it to work:
 
 - EnvDTE
 - EnvDTE80
-- Microsoft.VisualStudio.Shell.Interop
 
 ## Initialize the logger
 From the Visual Studio extension's package file's `Initialize()`

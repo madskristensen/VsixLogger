@@ -14,8 +14,6 @@
         <copyright>Copyright 2016</copyright>
         <tags>vsix, extension, plugin</tags>
         <frameworkAssemblies>
-            <frameworkAssembly assemblyName="envdte" />
-            <frameworkAssembly assemblyName="envdte80" />
             <frameworkAssembly assemblyName="Microsoft.VisualStudio.Shell.Interop" />
         </frameworkAssemblies>
     </metadata>
