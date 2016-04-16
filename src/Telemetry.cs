@@ -22,26 +22,26 @@ public static class Telemetry
     /// <param name="telemetryKey">The Applicatoin Insights instrumentation key (usually a GUID).</param>
     public static void Initialize(IServiceProvider provider, string version, string telemetryKey)
     {
-        var dte = (DTE2)provider.GetService(typeof(DTE));
-
-        if (_telemetry != null)
-            throw new NotSupportedException("The telemetry client is already initialized");
-
-        _telemetry = new TelemetryClient();
-        _telemetry.Context.Session.Id = Guid.NewGuid().ToString();
-        _telemetry.Context.Device.Model = dte.Edition;
-        _telemetry.InstrumentationKey = telemetryKey;
-        _telemetry.Context.Component.Version = version;
-
-        byte[] enc = Encoding.UTF8.GetBytes(Environment.UserName + Environment.MachineName);
-        using (var crypto = new MD5CryptoServiceProvider())
+        if (_telemetry == null)
         {
-            byte[] hash = crypto.ComputeHash(enc);
-            _telemetry.Context.User.Id = Convert.ToBase64String(hash);
-        }
+            var dte = (DTE2)provider.GetService(typeof(DTE));
 
-        _events = dte.Events.DTEEvents;
-        _events.OnBeginShutdown += _telemetry.Flush;
+            _telemetry = new TelemetryClient();
+            _telemetry.Context.Session.Id = Guid.NewGuid().ToString();
+            _telemetry.Context.Device.Model = dte.Edition;
+            _telemetry.InstrumentationKey = telemetryKey;
+            _telemetry.Context.Component.Version = version;
+
+            byte[] enc = Encoding.UTF8.GetBytes(Environment.UserName + Environment.MachineName);
+            using (var crypto = new MD5CryptoServiceProvider())
+            {
+                byte[] hash = crypto.ComputeHash(enc);
+                _telemetry.Context.User.Id = Convert.ToBase64String(hash);
+            }
+
+            _events = dte.Events.DTEEvents;
+            _events.OnBeginShutdown += _telemetry.Flush;
+        }
 
         Enabled = true;
     }

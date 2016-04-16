@@ -75,13 +75,10 @@ public static class Logger
     {
         if (pane == null)
         {
-            if (pane == null)
-            {
-                Guid guid = Guid.NewGuid();
-                IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
-                output.CreatePane(ref guid, _name, 1, 1);
-                output.GetPane(ref guid, out pane);
-            }
+            Guid guid = Guid.NewGuid();
+            IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
+            output.CreatePane(ref guid, _name, 1, 1);
+            output.GetPane(ref guid, out pane);
         }
 
         return pane != null;
