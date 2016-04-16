@@ -16,6 +16,14 @@ Available as [VsixLogger on NuGet](https://www.nuget.org/packages/VsixLogger/)
 - Logs any exception to Application Insights
 - Tracks custom events through Application Insights
 
+## Referenced assemblies
+This package will install the following GAC'ed assemblies to
+the VSIX project:
+
+- EnvDTE
+- EnvDTE80
+- Microsoft.VisualStudio.Shell.Interop
+
 ## Initialize the logger
 From the Visual Studio extension's package file's `Initialize()`
 method, call `Logger.Initialize()` to set everything up. This
