@@ -9,6 +9,7 @@ public static class Logger
     private static IVsOutputWindowPane pane;
     private static IServiceProvider _provider;
     private static string _name;
+    private static object _syncRoot = new object();
 
     /// <summary>
     /// Initializes the logger.
@@ -75,10 +76,16 @@ public static class Logger
     {
         if (pane == null)
         {
-            Guid guid = Guid.NewGuid();
-            IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
-            output.CreatePane(ref guid, _name, 1, 1);
-            output.GetPane(ref guid, out pane);
+            lock (_syncRoot)
+            {
+                if (pane == null)
+                {
+                    Guid guid = Guid.NewGuid();
+                    IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
+                    output.CreatePane(ref guid, _name, 1, 1);
+                    output.GetPane(ref guid, out pane);
+                }
+            }
         }
 
         return pane != null;

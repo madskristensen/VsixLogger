@@ -58,7 +58,7 @@ public static class Telemetry
     public static void TrackEvent(string key, IDictionary<string, string> properties = null, IDictionary<string, double> metrics = null)
     {
 #if !DEBUG
-        if (Enabled)
+        if (Enabled && !System.Diagnostics.Debugger.IsAttached)
         {
             if (_telemetry == null)
                 throw new NullReferenceException("The Telemetry client has not been initialized. Call Logger.Initialize() to fix.");
@@ -72,7 +72,7 @@ public static class Telemetry
     public static void TrackException(Exception ex)
     {
 #if !DEBUG
-        if (Enabled)
+        if (Enabled && !System.Diagnostics.Debugger.IsAttached)
         {
             if (_telemetry == null)
                 throw new NullReferenceException("The Telemetry client has not been initialized. Call Logger.Initialize() to fix.");
