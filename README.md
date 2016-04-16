@@ -44,6 +44,53 @@ protected override void Initialize()
 }
 ```
 
+## API
+
+### Logger
+Use the `Logger.Log` method to log exceptions or strings to
+the Output Window. If the `Telemetry` client has been
+initialized then exceptions are logged to Application Insights
+as well.
+
+#### Exceptions
+```C#
+try {
+  // code
+}
+catch (Exception ex){
+  Logger.Log(ex);
+}
+```
+
+#### Any string
+
+```C#
+  Logger.Log("Some string");
+```
+
+### Telemetry
+The `Telemetry` class allows you to track both exceptions
+and custom events with Application Insights.
+
+#### Exceptions
+It's recommended to use `Logger.Log(Exception)` to log
+exceptions.
+
+```C#
+try {
+  // code
+}
+catch (Exception ex){
+  Telemetry.TrackException(ex);
+}
+```
+
+#### Events
+
+```C#
+  Telemetry.TrackEvent("event name", properties = null, metrics = null);
+```
+
 ## Contribute
 Bug reports and pull requests are more than welcome.
 
