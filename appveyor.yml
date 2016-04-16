@@ -13,11 +13,9 @@ assembly_info:
 before_build:
   - nuget restore -Verbosity quiet
 
-build:
-  parallel: true
-  project: src/VsixLogger.csproj
-  publish_nuget: true             # package projects with .nuspec files and push to artifacts
-  verbosity: quiet
+build_script:
+  - msbuild /p:configuration=Release /v:m
+  - build.cmd
 
 after_build:
   - ps: nuget pack src\VsixLogger.csproj

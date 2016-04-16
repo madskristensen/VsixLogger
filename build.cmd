@@ -1,0 +1,1 @@
+nuget pack src\VsixLogger.csproj -Prop Configuration=Release
