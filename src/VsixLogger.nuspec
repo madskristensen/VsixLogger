@@ -13,8 +13,9 @@
         <description>$description$</description>
         <copyright>Copyright 2016</copyright>
         <tags>vsix, extension, plugin</tags>
-        <frameworkAssemblies>
-            <frameworkAssembly assemblyName="Microsoft.VisualStudio.Shell.Interop" />
-        </frameworkAssemblies>
     </metadata>
+
+    <files>
+        <file src="bin\$configuration$\$id$.pdb" target="lib\net45" />
+    </files>
 </package>
