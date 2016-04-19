@@ -86,9 +86,9 @@ public static class Logger
     }
 
     /// <summary>
-    /// Deletes the output window pane.
+    /// Deletes the Output Window pane.
     /// </summary>
-    public static void Remove()
+    public static void DeletePane()
     {
         if (pane != null)
         {
