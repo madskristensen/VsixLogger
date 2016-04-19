@@ -95,6 +95,7 @@ public static class Logger
             {
                 IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
                 output.DeletePane(ref _guid);
+                pane = null;
             }
             catch (Exception ex)
             {
