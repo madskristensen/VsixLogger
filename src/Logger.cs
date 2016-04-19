@@ -8,6 +8,7 @@ public static class Logger
 {
     private static IVsOutputWindowPane pane;
     private static IServiceProvider _provider;
+    private static Guid _guid;
     private static string _name;
     private static object _syncRoot = new object();
 
@@ -20,6 +21,7 @@ public static class Logger
     {
         _provider = provider;
         _name = name;
+        _guid = Guid.NewGuid();
     }
 
     /// <summary>
@@ -72,6 +74,36 @@ public static class Logger
         }
     }
 
+    /// <summary>
+    /// Removes all text from the Output Window pane.
+    /// </summary>
+    public static void Clear()
+    {
+        if (pane != null)
+        {
+            pane.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Deletes the output window pane.
+    /// </summary>
+    public static void Remove()
+    {
+        if (pane != null)
+        {
+            try
+            {
+                IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
+                output.DeletePane(ref _guid);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.Write(ex);
+            }
+        }
+    }
+
     private static bool EnsurePane()
     {
         if (pane == null)
@@ -80,10 +112,9 @@ public static class Logger
             {
                 if (pane == null)
                 {
-                    Guid guid = Guid.NewGuid();
                     IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
-                    output.CreatePane(ref guid, _name, 1, 1);
-                    output.GetPane(ref guid, out pane);
+                    output.CreatePane(ref _guid, _name, 1, 1);
+                    output.GetPane(ref _guid, out pane);
                 }
             }
         }
