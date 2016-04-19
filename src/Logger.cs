@@ -21,7 +21,6 @@ public static class Logger
     {
         _provider = provider;
         _name = name;
-        _guid = Guid.NewGuid();
     }
 
     /// <summary>
@@ -112,6 +111,7 @@ public static class Logger
             {
                 if (pane == null)
                 {
+                    _guid = Guid.NewGuid();
                     IVsOutputWindow output = (IVsOutputWindow)_provider.GetService(typeof(SVsOutputWindow));
                     output.CreatePane(ref _guid, _name, 1, 1);
                     output.GetPane(ref _guid, out pane);
